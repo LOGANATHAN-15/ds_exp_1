@@ -1,5 +1,5 @@
 class QuadTree:
-    def _init_(s, b, c): s.b, s.c, s.d, s.e = b, c, [], []
+    def __init__(s, b, c): s.b, s.c, s.d, s.e = b, c, [], []
 
     def insert(s, city):
         if len(s.d) < s.c: s.d.append(city)
