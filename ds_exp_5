@@ -1,14 +1,14 @@
 class SegmentTree:
     def __init__(self, arr):
         self.n = len(arr)
-        self.tree = [0] * (2 * self.n)
+        self.arr = arr[:]  
+        self.tree = [0] * (4 * self.n) 
         self.construct_segment_tree(arr, 0, self.n - 1, 0)
 
     def construct_segment_tree(self, arr, start, end, index):
         if start == end:
             self.tree[index] = arr[start]
             return arr[start]
-       
         mid = (start + end) // 2
         self.tree[index] = self.construct_segment_tree(arr, start, mid, 2 * index + 1) + \
                            self.construct_segment_tree(arr, mid + 1, end, 2 * index + 2)
@@ -20,31 +20,30 @@ class SegmentTree:
     def _query_range_sum(self, start, end, query_start, query_end, index):
         if query_start <= start and query_end >= end:
             return self.tree[index]
-       
         if query_end < start or query_start > end:
             return 0
-       
         mid = (start + end) // 2
         return self._query_range_sum(start, mid, query_start, query_end, 2 * index + 1) + \
                self._query_range_sum(mid + 1, end, query_start, query_end, 2 * index + 2)
 
     def update_value(self, student_index, new_value):
-        diff = new_value - self.tree[self.n + student_index - 1]
+        diff = new_value - self.arr[student_index]   
+        self.arr[student_index] = new_value           
         self._update_value(0, self.n - 1, student_index, diff, 0)
 
     def _update_value(self, start, end, student_index, diff, index):
         if student_index < start or student_index > end:
             return
-       
         self.tree[index] += diff
-       
         if start != end:
             mid = (start + end) // 2
             self._update_value(start, mid, student_index, diff, 2 * index + 1)
             self._update_value(mid + 1, end, student_index, diff, 2 * index + 2)
 
+
 arr = [int(x) for x in input("Enter the array elements separated by spaces: ").split()]
 segment_tree = SegmentTree(arr)
+
 print("Initial segment tree:", segment_tree.tree)
 
 query_start, query_end = [int(x) for x in input("Enter the query range (start end) separated by spaces: ").split()]
