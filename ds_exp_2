@@ -1,0 +1,68 @@
+import heapq
+
+class Graph:
+    def _init_(self):
+        self.edges = {}
+
+    def add_node(self, node):
+        self.edges[node] = []
+
+    def add_edge(self, from_node, to_node, travel_time):
+        if from_node not in self.edges or to_node not in self.edges:
+            print("Error: One or both locations do not exist.")
+            return
+        self.edges[from_node].append((to_node, travel_time))
+        self.edges[to_node].append((from_node, travel_time))
+
+    def dijkstra(self, start, end):
+        heap = [(0, start)]
+        shortest_time = {node: float('inf') for node in self.edges}
+        shortest_time[start] = 0
+        previous_node = {node: None for node in self.edges}
+
+        while heap:
+            current_time, current_node = heapq.heappop(heap)
+
+            if current_node == end:
+                break
+
+            for neighbor, time in self.edges[current_node]:
+                new_time = current_time + time
+                if new_time < shortest_time[neighbor]:
+                    shortest_time[neighbor] = new_time
+                    previous_node[neighbor] = current_node
+                    heapq.heappush(heap, (new_time, neighbor))
+
+        return self.build_path(previous_node, start, end), shortest_time[end]
+
+    def build_path(self, previous_node, start, end):
+        path = []
+        current = end
+        while current:
+            path.append(current)
+            current = previous_node[current]
+        path.reverse()
+        return path if path[0] == start else None
+
+def main():
+    graph = Graph()
+
+    num_locations = int(input("Enter number of locations: "))
+    for _ in range(num_locations):
+        graph.add_node(input("Location: ").strip())
+
+    num_paths = int(input("Enter number of paths: "))
+    for _ in range(num_paths):
+        from_node, to_node, time = input("Path (from to time): ").split()
+        graph.add_edge(from_node, to_node, int(time))
+
+    start, end = input("Enter start location: ").strip(), input("Enter destination: ").strip()
+    route, time = graph.dijkstra(start, end)
+
+    if route:
+        print(f"Shortest route: {' -> '.join(route)} (Time: {time})")
+    else:
+        print("No route found.")
+
+if _name_ == "_main_":
+    main()
