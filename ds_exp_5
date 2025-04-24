@@ -1,5 +1,5 @@
 class SegmentTree:
-    def _init_(self, arr):
+    def __init__(self, arr):
         self.n = len(arr)
         self.tree = [0] * (2 * self.n)
         self.construct_segment_tree(arr, 0, self.n - 1, 0)
