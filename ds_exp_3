@@ -1,5 +1,5 @@
 class DisjointSet:
-    def _init_(self, vertices):
+    def __init__(self, vertices):
         self.parent = {v: v for v in vertices}
         self.rank = {v: 0 for v in vertices}
 
@@ -54,5 +54,5 @@ def main():
         print(f"{u} – {v}: {weight}")
 
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     main()
