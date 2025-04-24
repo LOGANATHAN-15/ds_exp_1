@@ -1,0 +1,25 @@
+class ChessGame:
+    def init(self):
+        self.board = [
+            ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],
+            ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+            ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
+            ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R']
+        ]
+        self.white_turn = True
+    def print_board(self):
+        for row in self.board: print(' '.join(row))
+    def make_move(self, source, dest):
+        sr, sc, dr, dc = 8 - int(source[1]), ord(source[0]) - ord('a'), 8 - int(dest[1]), ord(dest[0]) - ord('a')
+        self.board[dr][dc], self.board[sr][sc] = self.board[sr][sc], ' '
+    def play_game(self):
+        while True:
+            self.print_board()
+            print(f"{'White' if self.white_turn else 'Black'}'s turn")
+            self.make_move(input("Source: "), input("Destination: "))
+            self.white_turn = not self.white_turn
+ChessGame().play_game()
