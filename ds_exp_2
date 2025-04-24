@@ -1,7 +1,7 @@
 import heapq
 
 class Graph:
-    def _init_(self):
+    def __init__(self):
         self.edges = {}
 
     def add_node(self, node):
@@ -64,5 +64,5 @@ def main():
     else:
         print("No route found.")
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     main()
