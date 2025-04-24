@@ -1,10 +1,10 @@
 class TrieNode:
-    def _init_(self):
+    def __init__(self):
         self.children = {}
         self.is_end_of_word = False
 
 class Trie:
-    def _init_(self):
+    def __init__(self):
         self.root = TrieNode()
 
     def insert(self, word):
@@ -61,5 +61,5 @@ def main():
         else:
             print("Invalid choice. Please choose again.\n")
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     main()
