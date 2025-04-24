@@ -20,11 +20,18 @@ class QuadTree:
     def query_location(s, p): return s.d if not s.e else sum((c.query_location(p) for c in s.e if c._contains(c.b, p)), [])
 
     def query_nearest_city(s, p, d=float('inf'), n=None):
-        if not s._contains(s.b, p): return n
+        if not s._contains(s.b, p):
+            return n
         for c in s.d:
-            dist = ((c[0] - p[0])*2 + (c[1] - p[1])2)*0.5
-            if dist < d: d, n = dist, c
-        return min((c.query_nearest_city(p, d, n) for c in s.e or []), key=lambda x: ((x[0] - p[0])*2 + (x[1] - p[1])2)*0.5 if x else float('inf'), default=n)
+            dist = ((c[0] - p[0])**2 + (c[1] - p[1])**2)**0.5
+            if dist < d:
+                d, n = dist, c
+        return min(
+        (c.query_nearest_city(p, d, n) for c in s.e or []),
+        key=lambda x: ((x[0] - p[0])**2 + (x[1] - p[1])**2)**0.5 if x else float('inf'),
+        default=n
+    )
+
 
 qt = QuadTree(tuple(map(int, input("Enter map boundary (x, y, w, h): ").split())) , int(input("Enter capacity per node: ")))
 for _ in range(int(input("Enter number of cities: "))): qt.insert(tuple(map(int, input("Enter city coordinates (x, y): ").split())))
